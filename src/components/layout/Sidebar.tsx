@@ -1,28 +1,55 @@
-import {
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
-} from "@ant-design/icons";
 import { Menu } from "antd";
 import Sider from "antd/es/layout/Sider";
-import React from "react";
-import logoImg from "../../assets/image/logo-of-bookshop-removebg-preview.png";
 
-const items = [
-  UserOutlined,
-  VideoCameraOutlined,
-  UploadOutlined,
-  UserOutlined,
-].map((icon, index) => ({
-  key: String(index + 1),
-  icon: React.createElement(icon),
-  label: `nav ${index + 1}`,
-}));
+import logoImg from "../../assets/image/logo-of-bookshop-removebg-preview.png";
+import { sidebarGenerator } from "../../utils/sideBarItemsGenerator";
+import { adminPaths } from "../../routes/admine.routes";
+import { TUser } from "../../types/type";
+import { useAppSelector } from "../../redux/hooks";
+import { useCurrentToken } from "../../redux/auth/authSlice";
+import { verifyToken } from "../../utils/verifyToken";
+import { UsersPaths } from "../../routes/User.routes";
+import { homePaths } from "../../routes/home.routes";
+
+const userRole = {
+  ADMIN: "admin",
+  USER: "user",
+};
 
 const Sidebar = () => {
+  const token = useAppSelector(useCurrentToken);
+
+  let user;
+  if (token) {
+    const verifyUser = verifyToken(token) as TUser;
+    user = {
+      userEmail: verifyUser?.data?.userEmail,
+      role: verifyUser?.data?.role,
+      iat: verifyUser?.iat,
+      exp: verifyUser?.exp,
+    };
+  }
+
+  if (!user || !user.role) {
+    return null;
+  }
+
+  let sidebarItems;
+  switch (user?.role) {
+    case userRole?.ADMIN:
+      sidebarItems = sidebarGenerator(adminPaths, "admin");
+      break;
+    case userRole?.USER:
+      sidebarItems = sidebarGenerator(UsersPaths, "user");
+      break;
+
+    default:
+      sidebarItems = sidebarGenerator(homePaths);
+      break;
+  }
   return (
     <Sider
-      style={{ height: "100vh", position: "sticky" }}
+      style={{ height: "100vh", position: "sticky", top: "0", left: "0" }}
       breakpoint="lg"
       collapsedWidth="0"
       onBreakpoint={(broken) => {
@@ -48,7 +75,7 @@ const Sidebar = () => {
         theme="dark"
         mode="inline"
         defaultSelectedKeys={["4"]}
-        items={items}
+        items={sidebarItems}
       />
     </Sider>
   );
