@@ -1,13 +1,13 @@
 import { Button, Flex, Layout } from "antd";
 import Sidebar from "./Sidebar";
-import { Outlet, useNavigate } from "react-router";
+import { Link, Outlet, useNavigate } from "react-router";
 import { useAppDispath, useAppSelector } from "../../redux/hooks";
 import { logout, useCurrentToken } from "../../redux/auth/authSlice";
 import { verifyToken } from "../../utils/verifyToken";
 import { TUser } from "../../types/type";
 
 import logoImg from "../../assets/image/logo-of-bookshop-removebg-preview.png";
-
+import { ShoppingCartOutlined } from "@ant-design/icons";
 const { Header, Content, Footer } = Layout;
 
 const MainLayout = () => {
@@ -30,7 +30,15 @@ const MainLayout = () => {
     <Layout>
       <Sidebar></Sidebar>
       <Layout>
-        <Header style={{ padding: "0", top: "0", left: "0" }}>
+        <Header
+          style={{
+            padding: "0",
+            top: "0",
+            left: "0",
+            position: "sticky",
+            zIndex: "1",
+          }}
+        >
           {user?.role ? (
             <Flex
               style={{
@@ -41,6 +49,12 @@ const MainLayout = () => {
               }}
             >
               <Button onClick={handlLogOut}>LogOut</Button>
+              <Link to="/my-cart">
+                <Button style={{ marginLeft: 5 }}>
+                  My Cart
+                  <ShoppingCartOutlined />
+                </Button>
+              </Link>
             </Flex>
           ) : (
             <Flex
@@ -55,6 +69,12 @@ const MainLayout = () => {
               />
 
               <Button onClick={handlLogIn}>LogIn</Button>
+              <Link to="/my-cart">
+                <Button style={{ marginLeft: 5 }}>
+                  My Cart
+                  <ShoppingCartOutlined />
+                </Button>
+              </Link>
             </Flex>
           )}
         </Header>

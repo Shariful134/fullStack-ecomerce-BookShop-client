@@ -1,10 +1,8 @@
 import { Button, Card, Col, Flex, Row } from "antd";
-import {
-  useGetAllBooksQuery,
-  useGetSingleBookQuery,
-} from "../../redux/book/bookApi";
+import { useGetAllBooksQuery } from "../../redux/book/bookApi";
 import { TBook } from "../../types/type";
 import { useState } from "react";
+import { Link } from "react-router";
 
 const { Meta } = Card;
 
@@ -13,7 +11,6 @@ const GetBooks = () => {
 
   console.log(bookId);
   const { data: booksData } = useGetAllBooksQuery(undefined);
-  const { singleData } = useGetSingleBookQuery(bookId);
 
   const allBooks = booksData?.data?.map((book: TBook) => ({
     _id: book._id,
@@ -49,9 +46,11 @@ const GetBooks = () => {
               </p>
               <Flex justify="space-between" style={{ marginTop: "2px" }}>
                 <Button style={{ marginRight: "4px" }}>Add To Cart</Button>
-                <Button onClick={() => setbookId(item._id as string)}>
-                  Detals
-                </Button>
+                <Link to={`/single-book/${item._id}`}>
+                  <Button onClick={() => setbookId(item._id as string)}>
+                    Detals
+                  </Button>
+                </Link>
               </Flex>
             </Card>
           </Col>

@@ -15,7 +15,7 @@ export const UsersPaths = [
     element: <Home></Home>,
   },
   {
-    path: "single-book",
+    path: "single-book/:bookId",
     element: <SingleBooks></SingleBooks>,
   },
   {
