@@ -23,21 +23,16 @@ const Login = () => {
 
   const onSubmit = async (data: FieldValues) => {
     const toastId = toast.loading("Loggin in");
+
     try {
       const res = await addLogin(data).unwrap();
 
-      console.log(res);
+      const user = verifyToken(res?.data?.accessToken) as TUser;
+      console.log(user.role);
 
-      const verifyUser = verifyToken(res?.data?.accessToken) as TUser;
-      const user = {
-        userEmail: verifyUser?.data?.userEmail,
-        role: verifyUser?.data?.role,
-        iat: verifyUser?.iat,
-        exp: verifyUser?.exp,
-      };
       dispatch(setUser({ user: user, token: res?.data?.accessToken }));
       toast.success("Logged in", { id: toastId, duration: 1000 });
-      navigate(`/${user.role}/dashboard`);
+      navigate(`/${user.role}/Home`);
     } catch (error: any) {
       toast.error(error?.data?.message, { id: toastId, duration: 1000 });
     }

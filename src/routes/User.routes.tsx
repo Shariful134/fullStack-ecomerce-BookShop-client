@@ -1,3 +1,4 @@
+import SingleBooks from "../pages/books/SingleBooks";
 import Home from "../pages/home/Home";
 import Orders from "../pages/users/Order";
 import UserDashboard from "../pages/users/UserDashboard";
@@ -12,6 +13,10 @@ export const UsersPaths = [
     name: "home",
     path: "home",
     element: <Home></Home>,
+  },
+  {
+    path: "single-book",
+    element: <SingleBooks></SingleBooks>,
   },
   {
     name: "Order Management",

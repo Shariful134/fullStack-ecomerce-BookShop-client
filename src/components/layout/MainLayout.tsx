@@ -5,7 +5,7 @@ import { useAppDispath, useAppSelector } from "../../redux/hooks";
 import { logout, useCurrentToken } from "../../redux/auth/authSlice";
 import { verifyToken } from "../../utils/verifyToken";
 import { TUser } from "../../types/type";
-import NavBar from "./navbar/NavBar";
+
 import logoImg from "../../assets/image/logo-of-bookshop-removebg-preview.png";
 
 const { Header, Content, Footer } = Layout;
@@ -17,13 +17,7 @@ const MainLayout = () => {
 
   let user;
   if (token) {
-    const verifyUser = verifyToken(token) as TUser;
-    user = {
-      userEmail: verifyUser?.data?.userEmail,
-      role: verifyUser?.data?.role,
-      iat: verifyUser?.iat,
-      exp: verifyUser?.exp,
-    };
+    user = verifyToken(token) as TUser;
   }
 
   const handlLogOut = () => {
@@ -49,17 +43,6 @@ const MainLayout = () => {
               <Button onClick={handlLogOut}>LogOut</Button>
             </Flex>
           ) : (
-            // <div
-            //   style={{
-            //     height: "4rem",
-            //     color: "white",
-            //     display: "flex",
-            //     justifyContent: "start",
-            //     alignItems: "center",
-            //   }}
-            // >
-            //   <Button onClick={handlLogOut}>LogOut</Button>
-            // </div>
             <Flex
               justify="start"
               align="center"

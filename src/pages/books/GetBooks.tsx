@@ -1,13 +1,21 @@
-import { Card, Col, Flex, Row, Space } from "antd";
-import { useGetAllBooksQuery } from "../../redux/book/bookApi";
+import { Button, Card, Col, Flex, Row } from "antd";
+import {
+  useGetAllBooksQuery,
+  useGetSingleBookQuery,
+} from "../../redux/book/bookApi";
 import { TBook } from "../../types/type";
+import { useState } from "react";
 
 const { Meta } = Card;
 
 const GetBooks = () => {
-  const { data: booksData } = useGetAllBooksQuery(undefined);
+  const [bookId, setbookId] = useState<string | null>(null);
 
-  const books = booksData?.data?.map((book: TBook) => ({
+  console.log(bookId);
+  const { data: booksData } = useGetAllBooksQuery(undefined);
+  const { singleData } = useGetSingleBookQuery(bookId);
+
+  const allBooks = booksData?.data?.map((book: TBook) => ({
     _id: book._id,
     title: book.title,
     author: book.author,
@@ -22,24 +30,34 @@ const GetBooks = () => {
   }));
 
   return (
-    <Row gutter={[8, 12]}>
-      {books?.map((book) => (
-        <Col sm={8} md={{ span: 4 }} lg={{ span: 3 }}>
-          <Card
-            hoverable
-            style={{ width: "100%", maxWidth: "120px", marginRight: "5px" }}
-            cover={
-              <img
-                alt="example"
-                src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
-              />
-            }
-          >
-            <Meta title="Europe Street beat" description="www.instagram.com" />
-          </Card>
-        </Col>
-      ))}
-    </Row>
+    <>
+      <Row justify="center" align="middle" gutter={[16, 16]}>
+        {allBooks?.map((item: TBook) => (
+          <Col key={item._id}>
+            <Card
+              hoverable
+              style={{
+                width: 210,
+                height: 350,
+              }}
+              cover={<img alt="example" src={item.imageURL} />}
+            >
+              <Meta title={item?.title} />
+
+              <p>
+                Price: <span style={{ color: "#23A9E2" }}> {item.price} $</span>
+              </p>
+              <Flex justify="space-between" style={{ marginTop: "2px" }}>
+                <Button style={{ marginRight: "4px" }}>Add To Cart</Button>
+                <Button onClick={() => setbookId(item._id as string)}>
+                  Detals
+                </Button>
+              </Flex>
+            </Card>
+          </Col>
+        ))}
+      </Row>
+    </>
   );
 };
 

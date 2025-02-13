@@ -1,5 +1,6 @@
 import AdminDashboard from "../pages/admin/AdminDashboard";
 import CreateBook from "../pages/admin/CreateBook";
+import SingleBooks from "../pages/books/SingleBooks";
 import Home from "../pages/home/Home";
 
 export const adminPaths = [
@@ -10,8 +11,12 @@ export const adminPaths = [
   },
   {
     name: "Home",
-    path: "Home",
+    path: "home",
     element: <Home></Home>,
+  },
+  {
+    path: "single-book",
+    element: <SingleBooks></SingleBooks>,
   },
   {
     name: "Book Management",

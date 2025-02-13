@@ -21,13 +21,7 @@ const Sidebar = () => {
 
   let user;
   if (token) {
-    const verifyUser = verifyToken(token) as TUser;
-    user = {
-      userEmail: verifyUser?.data?.userEmail,
-      role: verifyUser?.data?.role,
-      iat: verifyUser?.iat,
-      exp: verifyUser?.exp,
-    };
+    user = verifyToken(token) as TUser;
   }
 
   if (!user || !user.role) {

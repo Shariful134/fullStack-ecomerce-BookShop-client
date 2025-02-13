@@ -12,9 +12,8 @@ import { useNavigate } from "react-router";
 
 const Registration = () => {
   const navigate = useNavigate();
-  const [addRegisterUser, { data, error }] = useRegisterUserMutation();
-  console.log("data: ", data);
-  console.log("error: ", error);
+  const [addRegisterUser] = useRegisterUserMutation();
+
   const defaultValues = {
     name: "Shariful islam",
     email: "Shariful@sgmail.com",
@@ -22,15 +21,8 @@ const Registration = () => {
   };
 
   const onSubmit = async (data: FieldValues) => {
-    console.log("data: ", data);
-
     try {
-      const userInfo = {
-        name: data.name,
-        email: data.email,
-        password: data.password,
-      };
-      const res = (await addRegisterUser(userInfo)) as TResponse<any>;
+      const res = (await addRegisterUser(data)) as TResponse<any>;
       if (res?.error) {
         toast.error(res?.error?.data?.message);
       } else {

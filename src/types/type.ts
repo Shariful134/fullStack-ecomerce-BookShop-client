@@ -1,3 +1,4 @@
+import { BaseQueryApi } from "@reduxjs/toolkit/query";
 import { ReactNode } from "react";
 
 export type TError = {
@@ -31,10 +32,8 @@ export type TRegsiter = {
 };
 
 export type TUser = {
-  data: {
-    userEmail: string;
-    role: string;
-  };
+  userId: string;
+  role: string;
   iat: number;
   exp: number;
 };
@@ -60,7 +59,7 @@ export type TRoute = {
 };
 
 export type TBook = {
-  _id: string;
+  _id?: string;
   title: string;
   author: string;
   price: number;
@@ -72,3 +71,8 @@ export type TBook = {
   publisher: string;
   imageURL: string;
 };
+export type TqueryParams = {
+  name: string;
+  value: boolean | React.Key;
+};
+export type TResponseRedux<T> = TResponse<T> & BaseQueryApi;
