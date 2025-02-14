@@ -6,7 +6,7 @@ import { Link } from "react-router";
 import { useAppSelector } from "../../redux/hooks";
 import { useCurrentToken } from "../../redux/auth/authSlice";
 import { verifyToken } from "../../utils/verifyToken";
-
+import DeleteModal from "../../components/admin/DeleteModal";
 const { Meta } = Card;
 
 const GetBooks = () => {
@@ -55,18 +55,27 @@ const GetBooks = () => {
               <p>
                 Price: <span style={{ color: "#23A9E2" }}> {item.price} $</span>
               </p>
-              <Flex justify="space-between" style={{ marginTop: "2px" }}>
+              <Flex justify="space-between" gap={5}>
                 {admin ? (
-                  <Link to={`/admin/updated-book/${item._id}`}>
-                    <Button onClick={() => setbookId(item._id as string)}>
-                      Update
-                    </Button>
-                  </Link>
+                  <Flex wrap justify="center" align="middle" gap={5}>
+                    <Link to={`/admin/updated-book/${item._id}`}>
+                      <Button
+                        style={{ backgroundColor: "#f8f8f8" }}
+                        onClick={() => setbookId(item._id as string)}
+                      >
+                        Update
+                      </Button>
+                    </Link>
+                    <DeleteModal bookId={item._id as string}></DeleteModal>
+                  </Flex>
                 ) : (
                   <Button style={{ marginRight: "4px" }}>Add To Cart</Button>
                 )}
                 <Link to={`/single-book/${item._id}`}>
-                  <Button onClick={() => setbookId(item._id as string)}>
+                  <Button
+                    style={{ backgroundColor: "#f8f8f8" }}
+                    onClick={() => setbookId(item._id as string)}
+                  >
                     Detals
                   </Button>
                 </Link>

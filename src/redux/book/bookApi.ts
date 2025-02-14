@@ -10,12 +10,20 @@ const authApi = baseApi.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["book"],
     }),
     updatebook: builder.mutation({
       query: ({ id, data }) => ({
         url: `/admin/book/${id}`,
         method: "PUT",
         body: data,
+      }),
+      invalidatesTags: ["book"],
+    }),
+    deletebook: builder.mutation({
+      query: (id) => ({
+        url: `/admin/delete-book/${id}`,
+        method: "DELETE",
       }),
       invalidatesTags: ["book"],
     }),
@@ -45,6 +53,7 @@ const authApi = baseApi.injectEndpoints({
         url: `/admin/book/${id}`,
         method: "GET",
       }),
+      providesTags: ["book"],
     }),
   }),
 });
@@ -53,4 +62,5 @@ export const {
   useCreatebookMutation,
   useGetSingleBookQuery,
   useUpdatebookMutation,
+  useDeletebookMutation,
 } = authApi;
