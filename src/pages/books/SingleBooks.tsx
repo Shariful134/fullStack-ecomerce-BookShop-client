@@ -1,13 +1,23 @@
 import { Link, useParams } from "react-router";
 import { useGetSingleBookQuery } from "../../redux/book/bookApi";
-import { Button, Col, Divider, Flex, Image, Row } from "antd";
-import { Card } from "antd";
+import { Button, Col, Flex, Image, Row } from "antd";
+
 import { Typography } from "antd";
-import GetBooks from "./GetBooks";
+import { useAppSelector } from "../../redux/hooks";
+import { useCurrentToken } from "../../redux/auth/authSlice";
+import { TUser } from "../../types/type";
+import { verifyToken } from "../../utils/verifyToken";
 
 const { Title, Text } = Typography;
 
 const SingleBooks = () => {
+  const token = useAppSelector(useCurrentToken);
+
+  let user;
+  if (token) {
+    user = verifyToken(token) as TUser;
+  }
+  const admin = user?.role;
   const { bookId } = useParams();
 
   const { data: singleBook } = useGetSingleBookQuery(bookId);
@@ -63,23 +73,36 @@ const SingleBooks = () => {
         </Col>
         <Col>
           <Flex justify="space-between" style={{ marginTop: "2px" }}>
-            <Button
-              style={{
-                marginRight: "8px",
-                boxShadow: "1px 1px 1px #b8b9be,-1px -1px 1px #fff",
-              }}
-            >
-              Add To Cart
-            </Button>
+            {admin ? (
+              <Button
+                style={{
+                  boxShadow: "1px 1px 1px #b8b9be,-1px -1px 1px #fff",
+                  marginRight: "8px",
+                }}
+              >
+                Update
+              </Button>
+            ) : (
+              <>
+                <Button
+                  style={{
+                    marginRight: "8px",
+                    boxShadow: "1px 1px 1px #b8b9be,-1px -1px 1px #fff",
+                  }}
+                >
+                  Add To Cart
+                </Button>
 
-            <Button
-              style={{
-                boxShadow: "1px 1px 1px #b8b9be,-1px -1px 1px #fff",
-                marginRight: "8px",
-              }}
-            >
-              Order
-            </Button>
+                <Button
+                  style={{
+                    boxShadow: "1px 1px 1px #b8b9be,-1px -1px 1px #fff",
+                    marginRight: "8px",
+                  }}
+                >
+                  Order
+                </Button>
+              </>
+            )}
             <Link to="/home">
               <Button
                 style={{

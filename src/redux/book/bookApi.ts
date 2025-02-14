@@ -11,6 +11,14 @@ const authApi = baseApi.injectEndpoints({
         body: data,
       }),
     }),
+    updatebook: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `/admin/book/${id}`,
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: ["book"],
+    }),
     getAllBooks: builder.query({
       query: (args) => {
         const params = new URLSearchParams();
@@ -25,6 +33,7 @@ const authApi = baseApi.injectEndpoints({
           params: params,
         };
       },
+      providesTags: ["book"],
 
       transformResponse: (response: TResponseRedux<any>) => ({
         data: response?.data,
@@ -33,7 +42,7 @@ const authApi = baseApi.injectEndpoints({
     }),
     getSingleBook: builder.query({
       query: (id) => ({
-        url: `http://localhost:5000/api/v1/admin/book/${id}`,
+        url: `/admin/book/${id}`,
         method: "GET",
       }),
     }),
@@ -43,4 +52,5 @@ export const {
   useGetAllBooksQuery,
   useCreatebookMutation,
   useGetSingleBookQuery,
+  useUpdatebookMutation,
 } = authApi;

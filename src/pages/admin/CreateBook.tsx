@@ -1,4 +1,4 @@
-import { Button, Col, Row } from "antd";
+import { Button, Col, Divider, Row } from "antd";
 import PHForm from "../../components/form/PHForm";
 import PHSelect from "../../components/form/PHSelect";
 import { FieldValues, SubmitHandler } from "react-hook-form";
@@ -7,6 +7,9 @@ import PHDatePicker from "../../components/form/PHDatePicker";
 import { useCreatebookMutation } from "../../redux/book/bookApi";
 import { TBook, TResponse } from "../../types/type";
 import { toast } from "sonner";
+import { Typography } from "antd";
+
+const { Title } = Typography;
 
 const stockOption = [
   { value: "true", label: "true" },
@@ -58,6 +61,12 @@ const CreateBook = () => {
 
   return (
     <Row justify="center" align="middle">
+      <Divider>
+        {" "}
+        <Title style={{ color: "#23A8E1" }} level={4}>
+          Create a Book
+        </Title>
+      </Divider>
       <PHForm onSubmit={onsubmit} defaultValues={defaultValues}>
         <Row justify="center" align="middle" gutter={8}>
           <Col span={12} md={{ span: 12 }} lg={{ span: 8 }}>

@@ -38,6 +38,14 @@ export type TUser = {
   exp: number;
 };
 
+export type TCustomUser = {
+  _id?: string;
+  name: string;
+  email: string;
+  role: string;
+  isBlocked: boolean;
+};
+
 export type TUserPaths = {
   name?: string;
   path?: string;

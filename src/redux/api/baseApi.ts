@@ -30,7 +30,6 @@ const baseQueryWithRefreshToken = async (args, api, extraOptions) => {
     });
 
     const data = await res.json();
-    // console.log("data", data);
     if (data?.data?.accessToken) {
       const user = (api.getState() as RootState).auth.user;
       api.dispatch(
@@ -43,15 +42,14 @@ const baseQueryWithRefreshToken = async (args, api, extraOptions) => {
     } else {
       api.dispatch(logout());
     }
-    console.log("data", data);
   }
 
-  // console.log("result-2: ", result);
   return result;
 };
 
 export const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: baseQueryWithRefreshToken,
+  tagTypes: ["book", "order"],
   endpoints: () => ({}),
 });

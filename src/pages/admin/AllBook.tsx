@@ -1,23 +1,12 @@
 import { Button, Card, Col, Flex, Row } from "antd";
 import { useGetAllBooksQuery } from "../../redux/book/bookApi";
-import { TBook, TUser } from "../../types/type";
+import { TBook } from "../../types/type";
 import { useState } from "react";
 import { Link } from "react-router";
-import { useAppSelector } from "../../redux/hooks";
-import { useCurrentToken } from "../../redux/auth/authSlice";
-import { verifyToken } from "../../utils/verifyToken";
 
 const { Meta } = Card;
 
-const GetBooks = () => {
-  const token = useAppSelector(useCurrentToken);
-
-  let user;
-  if (token) {
-    user = verifyToken(token) as TUser;
-  }
-  const admin = user?.role;
-
+const AllBooks = () => {
   const [bookId, setbookId] = useState<string | null>(null);
 
   console.log(bookId);
@@ -56,15 +45,7 @@ const GetBooks = () => {
                 Price: <span style={{ color: "#23A9E2" }}> {item.price} $</span>
               </p>
               <Flex justify="space-between" style={{ marginTop: "2px" }}>
-                {admin ? (
-                  <Link to={`/admin/updated-book/${item._id}`}>
-                    <Button onClick={() => setbookId(item._id as string)}>
-                      Update
-                    </Button>
-                  </Link>
-                ) : (
-                  <Button style={{ marginRight: "4px" }}>Add To Cart</Button>
-                )}
+                <Button style={{ marginRight: "4px" }}>Add To Cart</Button>
                 <Link to={`/single-book/${item._id}`}>
                   <Button onClick={() => setbookId(item._id as string)}>
                     Detals
@@ -79,4 +60,4 @@ const GetBooks = () => {
   );
 };
 
-export default GetBooks;
+export default AllBooks;
